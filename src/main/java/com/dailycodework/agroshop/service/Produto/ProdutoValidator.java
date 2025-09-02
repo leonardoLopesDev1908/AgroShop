@@ -1,5 +1,7 @@
 package com.dailycodework.agroshop.service.Produto;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Component;
 
 import com.dailycodework.agroshop.model.Produto;
@@ -14,12 +16,27 @@ public class ProdutoValidator {
     private final ProdutoRepository repository;
 
     public void validarCriacaoProduto(Produto produto){ 
-        if(repository.existsByNomeAndCategoria(produto.getMarca(), produto.getNome())){
-            //throw new "Exception que representa ja existir essa entidade"
-        }
+        validaUnicidade(produto, null);
     }
 
     public void validarAtualizacaoProduto(Produto produto, Long id){
-       
+        validaPreco(produto);
+        validaUnicidade(produto, id);
+    }
+
+    private void validaPreco(Produto produto){
+        if(produto.getPreco() != null && produto.getPreco().compareTo(BigDecimal.ZERO) <= 0){
+            throw new IllegalArgumentException("Preço inválido");
+        }
+    }
+
+    private void validaUnicidade(Produto produto, Long id){
+        boolean existeDuplicado = (id != null) ? 
+                    repository.existsByNomeAndMarcaAndIdNot(produto.getNome(), produto.getMarca(), id) :
+                    repository.existsByNomeAndMarca(produto.getNome(), produto.getMarca());
+
+        if(existeDuplicado){
+            throw new RuntimeException("Produto ja cadastrado");
+        }
     }
 }
