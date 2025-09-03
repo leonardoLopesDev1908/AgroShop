@@ -106,8 +106,9 @@ public class ProdutoService implements IProdutoService{
     }
 
     @Override
-    public List<Produto> getProdutoPorMarcaECategoria(  String categoria, String marca) {
-        return repository.findByCategoriaAndMarca(categoria, marca);
+    public List<Produto> getProdutoPorMarcaECategoria(String categoria, String marca) {
+        throw new RuntimeException("");
+        // return repository.findByCategoriaAndMarca(categoria, marca);
     }
 
     @Override
@@ -127,7 +128,8 @@ public class ProdutoService implements IProdutoService{
 
     @Override
     public List<Produto> getProdutoPorCategoria(String categoria) {
-        return repository.findByCategoria(categoria);
+        throw new RuntimeException("");
+        //return repository.findByCategoria(categoria);
     }
     
 }
