@@ -46,7 +46,7 @@ public class Produto {
     private Categoria categoria;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Image> images;
+    private List<Imagem> images;
     
     public Produto(String nome, String marca, BigDecimal preco, 
         int estoque, Categoria categoria, String descricao){
