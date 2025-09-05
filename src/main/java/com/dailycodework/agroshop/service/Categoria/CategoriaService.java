@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.dailycodework.agroshop.controller.dto.cadastro.CategoriaCadastroDTO;
+import com.dailycodework.agroshop.controller.mapper.CategoriaMapper;
 import com.dailycodework.agroshop.model.Categoria;
 import com.dailycodework.agroshop.repository.CategoriaRepository;
 
@@ -14,12 +16,14 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CategoriaService implements ICategoraService{
+public class CategoriaService implements ICategoriaService{
     
     private final CategoriaRepository repository;
+    private final CategoriaMapper mapper;
 
     @Override
-    public Categoria addCategoria(Categoria categoria) {
+    public Categoria addCategoria(CategoriaCadastroDTO dto) {
+        Categoria categoria = mapper.toEntity(dto);
         return Optional.of(categoria).filter(c -> !repository.existsByNome(categoria.getNome()))
             .map(repository::save)
             .orElseThrow(() -> {
@@ -28,7 +32,8 @@ public class CategoriaService implements ICategoraService{
     }
 
     @Override
-    public Categoria updateCategoria(Categoria categoria, Long id) {
+    public Categoria updateCategoria(CategoriaCadastroDTO dto, Long id) {
+        Categoria categoria = mapper.toEntity(dto);
         return Optional.ofNullable(buscaPorId(id))
         .filter(c -> !repository.existsByNomeAndIdNot(categoria.getNome(), id))
         .map(categoriaExistente -> {

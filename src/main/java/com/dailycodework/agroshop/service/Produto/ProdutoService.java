@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.dailycodework.agroshop.controller.dto.cadastro.ProdutoDTO;
+import com.dailycodework.agroshop.controller.dto.cadastro.ProdutoCadastroDTO;
 import com.dailycodework.agroshop.controller.dto.update.ProdutoUpdateDTO;
 import com.dailycodework.agroshop.controller.mapper.ProdutoMapper;
 import com.dailycodework.agroshop.model.Carrinho;
@@ -37,7 +37,7 @@ public class ProdutoService implements IProdutoService{
     private final ItemPedidoRepository itemPedidoRepository;
 
     @Override
-    public Produto addProduto(ProdutoDTO dto) {
+    public Produto addProduto(ProdutoCadastroDTO dto) {
         Produto produto = mapper.toEntity(dto);
         validator.validarCriacaoProduto(produto);
 
@@ -118,7 +118,7 @@ public class ProdutoService implements IProdutoService{
 
     @Override
     public List<Produto> getProdutoPorNome(String nome) {
-        return repository.findByNomeContaining(nome);
+       return repository.findByNomeContaining(nome);
     }
 
     @Override

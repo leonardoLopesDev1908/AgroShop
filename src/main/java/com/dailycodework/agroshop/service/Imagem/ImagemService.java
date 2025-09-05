@@ -10,7 +10,8 @@ import javax.sql.rowset.serial.SerialBlob;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.dailycodework.agroshop.controller.dto.cadastro.ImagemDTO;
+import com.dailycodework.agroshop.controller.dto.cadastro.ImagemCadastroDTO;
+import com.dailycodework.agroshop.controller.dto.pesquisa.ImagemPesquisaDTO;
 import com.dailycodework.agroshop.controller.mapper.ImagemMapper;
 import com.dailycodework.agroshop.model.Imagem;
 import com.dailycodework.agroshop.model.Produto;
@@ -56,10 +57,10 @@ public class ImagemService implements IImagemService{
     }
 
     @Override
-    public List<ImagemDTO> salvarImagens(Long idProduto, List<MultipartFile> files) {
+    public List<ImagemPesquisaDTO> salvarImagens(Long idProduto, List<MultipartFile> files) {
         Produto produto = produtoService.buscarPorId(idProduto);
     
-        List<ImagemDTO> imagens = new ArrayList<>();
+        List<ImagemPesquisaDTO> imagens = new ArrayList<>();
 
         for(MultipartFile file : files){
             try {
@@ -78,7 +79,7 @@ public class ImagemService implements IImagemService{
                 imagemSalva.setDownloadUrl(downloadUrl + imagemSalva.getId());
                 repository.save(imagemSalva);
 
-                ImagemDTO dto = mapper.toDTO(imagemSalva);
+                ImagemPesquisaDTO dto = mapper.toDTO(imagemSalva);
 
                 imagens.add(dto);
 

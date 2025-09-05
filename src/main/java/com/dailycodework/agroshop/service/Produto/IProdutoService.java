@@ -2,13 +2,13 @@ package com.dailycodework.agroshop.service.Produto;
 
 import java.util.List;
 
-import com.dailycodework.agroshop.controller.dto.cadastro.ProdutoDTO;
+import com.dailycodework.agroshop.controller.dto.cadastro.ProdutoCadastroDTO;
 import com.dailycodework.agroshop.controller.dto.update.ProdutoUpdateDTO;
 import com.dailycodework.agroshop.model.Produto;
 
 public interface IProdutoService {
     
-    Produto addProduto(ProdutoDTO dto);
+    Produto addProduto(ProdutoCadastroDTO dto);
 
     Produto buscarPorId(Long id);
 

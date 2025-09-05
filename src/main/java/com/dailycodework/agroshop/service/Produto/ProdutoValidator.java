@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.dailycodework.agroshop.model.Produto;
 import com.dailycodework.agroshop.repository.ProdutoRepository;
 
+import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -36,7 +37,7 @@ public class ProdutoValidator {
                     repository.existsByNomeAndMarca(produto.getNome(), produto.getMarca());
 
         if(existeDuplicado){
-            throw new RuntimeException("Produto ja cadastrado");
+            throw new EntityExistsException("Produto ja cadastrado");
         }
     }
 }
