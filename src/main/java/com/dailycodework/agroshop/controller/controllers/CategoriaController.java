@@ -21,6 +21,7 @@ import com.dailycodework.agroshop.service.Categoria.ICategoriaService;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -37,7 +38,7 @@ public class CategoriaController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<ApiResponse> cadastrarCategoria(@RequestBody CategoriaCadastroDTO dto){
+    public ResponseEntity<ApiResponse> cadastrarCategoria(@Valid @RequestBody CategoriaCadastroDTO dto){
         try {
             Categoria categoriaCriada = service.addCategoria(dto);
             return ResponseEntity.ok(new ApiResponse("Sucesso!", categoriaCriada));

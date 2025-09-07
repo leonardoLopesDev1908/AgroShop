@@ -9,7 +9,8 @@ import com.dailycodework.agroshop.controller.dto.pesquisa.ProdutoPesquisaDTO;
 import com.dailycodework.agroshop.controller.dto.update.ProdutoUpdateDTO;
 import com.dailycodework.agroshop.model.Produto;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", 
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ProdutoMapper {
 
     Produto toEntity(ProdutoCadastroDTO dto);

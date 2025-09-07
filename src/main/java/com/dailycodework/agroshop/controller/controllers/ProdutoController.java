@@ -20,6 +20,7 @@ import com.dailycodework.agroshop.controller.mapper.ProdutoMapper;
 import com.dailycodework.agroshop.response.ApiResponse;
 import com.dailycodework.agroshop.service.Produto.IProdutoService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -53,7 +54,7 @@ public class ProdutoController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<ApiResponse> cadastroProduto(@RequestBody ProdutoCadastroDTO dto){
+    public ResponseEntity<ApiResponse> cadastroProduto(@Valid @RequestBody ProdutoCadastroDTO dto){
         ProdutoPesquisaDTO produto = mapper.toDTO(service.addProduto(dto));
         return ResponseEntity.ok(new ApiResponse("Sucesso!", produto));
     }

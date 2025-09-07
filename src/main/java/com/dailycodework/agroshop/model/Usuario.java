@@ -37,7 +37,7 @@ public class Usuario {
     @NaturalId
     private String email;
 
-    private String password;
+    private String senha;
 
     @OneToOne(mappedBy = "usuario", cascade= CascadeType.ALL, orphanRemoval=true)
     private Carrinho carrinho;
