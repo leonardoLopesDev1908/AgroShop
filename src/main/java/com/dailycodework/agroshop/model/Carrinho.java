@@ -35,6 +35,12 @@ public class Carrinho {
     @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ItemCarrinho> items = new HashSet<>();
 
+    public void addItem(ItemCarrinho item){
+        this.items.add(item);
+        item.setCarrinho(this);
+        atualizaPreco();
+    }
+
     public void removeItem(ItemCarrinho item){
         this.items.remove(item);
         item.setCarrinho(null);
@@ -42,5 +48,10 @@ public class Carrinho {
     }
 
     private void atualizaPreco(){
+        this.valorTotal = BigDecimal.ZERO;
+        
+        for(ItemCarrinho item : items){
+            this.valorTotal = this.valorTotal.add(item.getPrecoTotal());
+        }
     }
 }
