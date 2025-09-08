@@ -47,11 +47,16 @@ public class Carrinho {
         atualizaPreco();
     }
 
-    private void atualizaPreco(){
+    public void atualizaPreco(){
         this.valorTotal = BigDecimal.ZERO;
         
         for(ItemCarrinho item : items){
             this.valorTotal = this.valorTotal.add(item.getPrecoTotal());
         }
+    }
+
+    public void limpar(){
+        this.items.clear();
+        atualizaPreco();
     }
 }

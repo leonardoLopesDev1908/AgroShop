@@ -52,8 +52,17 @@ public class ItemCarrinhoService implements IItemCarrinhoService {
 
     @Override
     public void atualizarQuantidade(Long carrinhoId, Long produtoId, int novaQuantidade) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atualizarQuantidade'");
+        if(novaQuantidade <= 0){
+            throw new IllegalArgumentException("Item não pode ter quantidade zero." 
+                   +" Deve ser removido do carrinho");
+        }
+        Carrinho carrinho = carrinhoService.buscarCarrinho(carrinhoId);
+        carrinho.getItems().stream()   
+                .filter(item -> item.getProduto().getId().equals(produtoId))
+                .findFirst().ifPresent(item -> {
+                    item.setQuantidade(novaQuantidade);
+                });
+        carrinho.atualizaPreco();
     }
 
     @Override

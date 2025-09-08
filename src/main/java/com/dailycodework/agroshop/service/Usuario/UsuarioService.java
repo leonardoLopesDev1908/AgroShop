@@ -51,16 +51,6 @@ public class UsuarioService implements IUsuarioService {
          */
     }
 
-    // @Override
-    // public UsuarioPesquisaDTO buscarPorId(UUID id) {
-    //     Usuario usuario = repository.findById(id).orElseThrow(() -> {
-    //         throw new EntityNotFoundException("Usuário não encontrado");
-    //     });
-    //     return mapper.toDTO(usuario);
-    // }
-
-
-
     @Override
     public void deletarUsuario(UUID id) {
         repository.findById(id).ifPresentOrElse(repository::delete,
@@ -68,12 +58,19 @@ public class UsuarioService implements IUsuarioService {
     }
 
 
+    // @Override
+    // public UsuarioPesquisaDTO buscarPorId(UUID id) {
+    //     Usuario usuario = repository.findById(id).orElseThrow(() -> {
+    //         throw new EntityNotFoundException("Usuario não encontrado");
+    //     });
+    //     return mapper.toDTO(usuario);
+    // }
+
     @Override
-    public UsuarioPesquisaDTO buscarPorId(UUID id) {
-        Usuario usuario = repository.findById(id).orElseThrow(() -> {
-            throw new EntityNotFoundException("Usuario não encontrado");
+    public Usuario buscarPorId(UUID id){
+        return repository.findById(id).orElseThrow(()->{
+            throw new EntityNotFoundException("Usuário não encontrado");
         });
-        return mapper.toDTO(usuario);
     }
 
 
