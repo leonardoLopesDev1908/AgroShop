@@ -9,5 +9,5 @@ import com.dailycodework.agroshop.model.ItemCarrinho;
 public interface ItemCarrinhoRepository extends JpaRepository<ItemCarrinho, Long>{
 
     List<ItemCarrinho> findByProdutoId(Long id);
-    void deleteAllByIdCarrinho(Long id);
+    void deleteAllByCarrinhoId(Long id);
 }

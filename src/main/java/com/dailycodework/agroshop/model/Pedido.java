@@ -5,9 +5,12 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import com.dailycodework.agroshop.model.enums.PedidoStatus;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,10 +34,14 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @CreatedDate
+    @Column
     private LocalDateTime data;
 
+    @Column
     private BigDecimal valorTotal;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private PedidoStatus status;
 

@@ -31,7 +31,7 @@ public class CarrinhoService implements ICarrinhoService {
 
     @Override
     public Carrinho buscarPorIdUsuario(UUID id){
-        return repository.findByUsuario(id);
+        return repository.findByUsuarioId(id);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class CarrinhoService implements ICarrinhoService {
         Carrinho carrinho = repository.findById(id).orElseThrow(() -> {
             throw new EntityNotFoundException("Carrinho não encontrado");
         });
-        itemRepository.deleteAllByIdCarrinho(id);
+        itemRepository.deleteAllByCarrinhoId(id);
         carrinho.limpar();
         repository.deleteById(id);
     }

@@ -10,5 +10,5 @@ import com.dailycodework.agroshop.model.Carrinho;
 @Repository
 public interface CarrinhoRepository extends JpaRepository<Carrinho, Long>{
     Carrinho findByUsuarioEmail(String email);
-    Carrinho findByUsuario(UUID id);
+    Carrinho findByUsuarioId(UUID id);
 }
