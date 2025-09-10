@@ -32,15 +32,15 @@ public class ItemCarrinhoController {
     @PostMapping("/item/cadastrar")
     public ResponseEntity<ApiResponse> adicionarItemCarrinho(//@RequestParam UUID idUsuario, 
                                                     @RequestParam Long produtoId, @RequestParam int quantidade){
-        Usuario usuario = usuarioService.buscarPorId(UUID.fromString("5A9672E2-7F11-43B5-A0FD-F41CFA34B61E"));
+        Usuario usuario = usuarioService.buscarPorId(UUID.fromString("044E0BDA-1A79-46E7-822C-A02573B5F6C9"));
         Carrinho carrinho = carrinhoService.novoCarro(usuario);    
         service.adicionarItem(carrinho.getId(), produtoId, quantidade);
         return ResponseEntity.ok(new ApiResponse("Sucesso!", null));
     }
 
-    @DeleteMapping("/carrinho/{idCarrinho}/item/{itemId}/excluir")
-    public ResponseEntity<ApiResponse> excluirItem(@PathVariable Long idCarrinho, @PathVariable Long itemId){
-        service.removerItem(idCarrinho, itemId);
+    @DeleteMapping("/carrinho/{idCarrinho}/item/{produtoId}/excluir")
+    public ResponseEntity<ApiResponse> excluirItem(@PathVariable Long idCarrinho, @PathVariable Long produtoId){
+        service.removerItem(idCarrinho, produtoId);
         return ResponseEntity.ok(new ApiResponse("Sucesso!", null));
     }
 

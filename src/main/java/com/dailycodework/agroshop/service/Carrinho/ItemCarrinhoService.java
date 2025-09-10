@@ -37,6 +37,7 @@ public class ItemCarrinhoService implements IItemCarrinhoService {
             item.setQuantidade(item.getQuantidade() + quantidade);
         }
         repository.save(item);
+        carrinho.atualizaPreco();
         carrinhoRepository.save(carrinho);
     }
 
