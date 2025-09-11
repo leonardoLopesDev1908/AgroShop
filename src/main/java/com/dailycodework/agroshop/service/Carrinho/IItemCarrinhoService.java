@@ -7,6 +7,4 @@ public interface IItemCarrinhoService {
     void removerItem(Long carrinhoId, Long produtoId);
     void atualizarQuantidade(Long carrinhoId, Long produtoId, int novaQuantidade);
     ItemCarrinho buscarItens(Long carrinhoId, Long produtoId);
-
-    
 }
