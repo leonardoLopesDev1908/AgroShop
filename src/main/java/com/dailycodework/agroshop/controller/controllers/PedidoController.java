@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dailycodework.agroshop.controller.dto.cadastro.PedidoDTO;
+import com.dailycodework.agroshop.controller.dto.cadastro.PedidoCadastroDTO;
 import com.dailycodework.agroshop.response.ApiResponse;
 import com.dailycodework.agroshop.service.Pedido.IPedidoService;
 
@@ -26,15 +26,13 @@ public class PedidoController {
 
     @PostMapping("/usuario/pedido")
     public ResponseEntity<ApiResponse> fazerNovoPedido(@RequestParam UUID id){
-        PedidoDTO dto = service.fazerPedido(id);
+        PedidoCadastroDTO dto = service.fazerPedido(id);
         return ResponseEntity.ok(new ApiResponse("Sucesso", dto));
     }
 
     @GetMapping("/usuario/{id}/pedidos")
     public ResponseEntity<ApiResponse> buscarPedido(@PathVariable UUID id){
-        List<PedidoDTO> lista = service.pedidosUsuario(id);
+        List<PedidoCadastroDTO> lista = service.pedidosUsuario(id);
         return ResponseEntity.ok(new ApiResponse("Sucesso", lista));
     }
-
-    
 }
