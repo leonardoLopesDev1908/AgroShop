@@ -21,8 +21,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-@Table
 @NoArgsConstructor
+@Table
 public class ItemPedido {
     
     @Id
@@ -32,8 +32,6 @@ public class ItemPedido {
     private int quantidade;
 
     private BigDecimal preco;
-
-    private BigDecimal precoTotal;
 
     @ManyToOne
     @JoinColumn(name="pedido_id")
@@ -57,6 +55,9 @@ public class ItemPedido {
 
     public void setQuantidade(int quantidade){
         this.quantidade = quantidade;
-        this.precoTotal = calcularPrecoTotal();
+    }
+
+    public void setPreco(BigDecimal preco){
+        this.preco = preco;
     }
 }

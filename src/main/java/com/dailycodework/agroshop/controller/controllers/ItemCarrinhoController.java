@@ -32,7 +32,7 @@ public class ItemCarrinhoController {
     @PostMapping("/item/cadastrar")
     public ResponseEntity<ApiResponse> adicionarItemCarrinho(//@RequestParam UUID idUsuario, 
                                                     @RequestParam Long produtoId, @RequestParam int quantidade){
-        Usuario usuario = usuarioService.buscarPorId(UUID.fromString("93B9EA95-C8CC-46C0-8C4A-FC18916378B2"));
+        Usuario usuario = usuarioService.buscarPorId(UUID.fromString("5A9672E2-7F11-43B5-A0FD-F41CFA34B61E"));
         Carrinho carrinho = carrinhoService.novoCarro(usuario);    
         service.adicionarItem(carrinho.getId(), produtoId, quantidade);
         return ResponseEntity.ok(new ApiResponse("Sucesso!", null));

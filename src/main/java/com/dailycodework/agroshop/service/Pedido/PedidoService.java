@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.dailycodework.agroshop.controller.dto.cadastro.PedidoDTO;
+import com.dailycodework.agroshop.controller.dto.cadastro.PedidoCadastroDTO;
 import com.dailycodework.agroshop.controller.mapper.PedidoMapper;
 import com.dailycodework.agroshop.model.Carrinho;
 import com.dailycodework.agroshop.model.ItemPedido;
@@ -32,7 +32,7 @@ public class PedidoService implements IPedidoService{
 
     @Override
     @Transactional
-    public PedidoDTO fazerPedido(UUID usuarioId) {
+    public PedidoCadastroDTO fazerPedido(UUID usuarioId) {
         Carrinho carrinho = carrinhoService.buscarPorIdUsuario(usuarioId);
         Pedido pedido = criarPedido(carrinho);
         List<ItemPedido> itens = criarItens(pedido, carrinho);
@@ -46,7 +46,7 @@ public class PedidoService implements IPedidoService{
     }
 
     @Override
-    public List<PedidoDTO> pedidosUsuario(UUID usuarioId) {
+    public List<PedidoCadastroDTO> pedidosUsuario(UUID usuarioId) {
         return repository.findByUsuarioId(usuarioId).stream()   
                 .map(mapper::toDTO)
                 .toList();
