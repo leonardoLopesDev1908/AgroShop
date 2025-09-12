@@ -21,11 +21,11 @@ import lombok.Setter;
 
 
 @Entity
-@Table
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table
 public class Carrinho {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
