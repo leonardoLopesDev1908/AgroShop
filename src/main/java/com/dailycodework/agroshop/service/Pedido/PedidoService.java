@@ -18,6 +18,7 @@ import com.dailycodework.agroshop.repository.PedidoRepository;
 import com.dailycodework.agroshop.repository.ProdutoRepository;
 import com.dailycodework.agroshop.service.Carrinho.ICarrinhoService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,6 +31,7 @@ public class PedidoService implements IPedidoService{
     private final PedidoMapper mapper;
 
     @Override
+    @Transactional
     public PedidoDTO fazerPedido(UUID usuarioId) {
         Carrinho carrinho = carrinhoService.buscarPorIdUsuario(usuarioId);
         Pedido pedido = criarPedido(carrinho);
