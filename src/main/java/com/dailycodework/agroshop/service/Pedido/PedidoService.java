@@ -1,6 +1,8 @@
 package com.dailycodework.agroshop.service.Pedido;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -38,6 +40,9 @@ public class PedidoService implements IPedidoService{
         List<ItemPedido> itens = criarItens(pedido, carrinho);
         pedido.setItens(new HashSet<>(itens));
         pedido.setValorTotal(calcularValorTotal(itens));
+
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm");
+        pedido.setData(format.format(LocalDateTime.now()));
         
         Pedido pedidoSalvo = repository.save(pedido);
         carrinhoService.limparCarrinho(carrinho.getId());

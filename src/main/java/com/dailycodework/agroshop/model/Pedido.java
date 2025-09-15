@@ -1,11 +1,8 @@
 package com.dailycodework.agroshop.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.springframework.data.annotation.CreatedDate;
 
 import com.dailycodework.agroshop.model.enums.PedidoStatus;
 
@@ -34,9 +31,8 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CreatedDate
     @Column
-    private LocalDateTime data;
+    private String data;
 
     @Column
     private BigDecimal valorTotal;
