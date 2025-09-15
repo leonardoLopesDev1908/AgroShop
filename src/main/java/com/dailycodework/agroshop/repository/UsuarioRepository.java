@@ -17,4 +17,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
             "WHERE u.nome LIKE %:nome% OR u.sobrenome LIKE %:nome% " + 
             "ORDER BY u.nome")
     List<Usuario> findByNomeOrSobrenome(String nome);
+
+    Usuario findByEmail(String email);
 }
