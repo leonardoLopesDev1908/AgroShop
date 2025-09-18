@@ -18,9 +18,9 @@ import lombok.Setter;
 
 
 @Entity
-@Getter
-@Setter
 @AllArgsConstructor
+@Setter
+@Getter
 @NoArgsConstructor
 @Table
 public class ItemPedido {
