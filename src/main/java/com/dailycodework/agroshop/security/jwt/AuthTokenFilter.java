@@ -2,6 +2,7 @@ package com.dailycodework.agroshop.security.jwt;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,15 +16,15 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 
 @Component
-@RequiredArgsConstructor
 public class AuthTokenFilter extends OncePerRequestFilter{
 
-    private final JwtUtils jwtUtils;
-
-    private final ShopUserDetailsService userDetailsService;
+    @Autowired
+    private JwtUtils jwtUtils;
+    
+    @Autowired
+    private ShopUserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, 
