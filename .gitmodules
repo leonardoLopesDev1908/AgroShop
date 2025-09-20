@@ -1,0 +1,3 @@
+[submodule "AgroShop-frontend"]
+	path = AgroShop-frontend
+	url = https://github.com/leonardoLopesDev1908/AgroShop-frontend
