@@ -1,9 +1,13 @@
 package com.dailycodework.agroshop.service.Usuario;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dailycodework.agroshop.controller.dto.cadastro.UsuarioCadastroDTO;
@@ -24,12 +28,15 @@ public class UsuarioService implements IUsuarioService {
     private final UsuarioRepository repository;
     private final UsuarioMapper mapper;
     private final UsuarioValidator validator;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public UsuarioPesquisaDTO addUsuario(UsuarioCadastroDTO dto) {
         Usuario usuario = mapper.toEntity(dto);
         validator.validar(usuario);
+        
+        usuario.setSenha(passwordEncoder.encode(dto.senha()));
         return mapper.toDTO(repository.save(usuario));
     }
 
@@ -77,10 +84,18 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public List<UsuarioPesquisaDTO> buscarPorNome(String nome) {
         return repository
-                    .findByNomeOrSobrenome(nome)
+                    .findByNome(nome)
                     .stream()
                     .map(mapper::toDTO)
                     .collect(Collectors.toList());
+    }
+
+    @Override
+    public Usuario getAuthenticatedUsuario(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return Optional.ofNullable(repository.findByEmail(email))
+                    .orElseThrow(() -> new EntityNotFoundException("Login necessário"));
     }
     
 }

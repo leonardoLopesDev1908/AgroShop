@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 import com.dailycodework.agroshop.security.user.ShopUserDetails;
 
@@ -15,6 +16,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
+@Component
 public class JwtUtils {
     
     @Value("${auth.token.jwtSecret}")
@@ -26,7 +28,7 @@ public class JwtUtils {
     @Value("${auth.token.refreshExpirationInMils}")
     private String refreshTime;
 
-    public String generateAccessTo(Authentication authentication){
+    public String generateAccessToken(Authentication authentication){
         ShopUserDetails shop = (ShopUserDetails) authentication.getPrincipal();
 
         List<String> roles = shop.getAuthorities()
@@ -42,7 +44,7 @@ public class JwtUtils {
             .signWith(key(), SignatureAlgorithm.HS256).compact();
     }
 
-    public String generateAccessToken(String email){
+    public String generateRefreshToken(String email){
         return Jwts.builder()
                     .setSubject(email)
                     .setIssuedAt(new Date())

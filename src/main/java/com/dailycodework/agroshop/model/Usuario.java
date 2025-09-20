@@ -45,7 +45,7 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Pedido> pedidos;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = 
                     {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "usuario_roles", joinColumns= @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
                             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))

@@ -15,4 +15,5 @@ public interface IUsuarioService {
     Usuario buscarPorId(UUID id);
     List<UsuarioPesquisaDTO> buscarPorNome(String nome);
     void deletarUsuario(UUID id);
+    Usuario getAuthenticatedUsuario();
 }
