@@ -70,4 +70,14 @@ public class ProdutoController {
         ProdutoPesquisaDTO novoProduto = mapper.toDTO(service.atualizarProduto(id, dto));
         return ResponseEntity.ok(new ApiResponse("Sucesso!", novoProduto));
     }
+
+    @GetMapping("/distintos/produtos")
+    public ResponseEntity<ApiResponse> getDistintosPorNome(){
+        List<ProdutoPesquisaDTO> produtos = service.findDistinctProdutodsByNome().stream()
+                                                .map(mapper::toDTO)
+                                                .collect(Collectors.toList());
+        return ResponseEntity.ok(new ApiResponse("Sucesso", produtos));
+        
+    }
+
 }

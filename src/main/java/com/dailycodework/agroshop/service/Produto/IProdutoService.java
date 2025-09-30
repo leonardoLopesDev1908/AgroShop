@@ -27,4 +27,6 @@ public interface IProdutoService {
     List<Produto> getProdutoPorMarca(String marca);
     
     List<Produto> getProdutoPorCategoria(String categoria);
+
+    List<Produto> findDistinctProdutodsByNome();
 }

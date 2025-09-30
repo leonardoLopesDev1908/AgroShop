@@ -1,7 +1,10 @@
 package com.dailycodework.agroshop.service.Produto;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -130,6 +133,16 @@ public class ProdutoService implements IProdutoService{
     public List<Produto> getProdutoPorCategoria(String categoria) {
         throw new RuntimeException("");
         //return repository.findByCategoria(categoria);
+    }
+
+    @Override
+    public List<Produto> findDistinctProdutodsByNome(){
+        List<Produto> produtos = getAllProdutos();
+        Map<String, Produto> distintos = produtos.stream()  
+            .collect(Collectors.toMap(Produto::getNome, 
+                                      produto -> produto, 
+                                      (existing, replacement) -> existing));
+        return new ArrayList<>(distintos.values());
     }
     
 }

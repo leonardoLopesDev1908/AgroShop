@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -77,14 +78,16 @@ public class SecurityConfiguration {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authProvider())
             .addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class)
-            //.httpBasic(Customizer.withDefaults())
+            .httpBasic(Customizer.withDefaults())
             .authorizeHttpRequests(authorize -> {
                 authorize.requestMatchers(SECURED_URLS.toArray(String[]::new)).authenticated();
-                //authorize.requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll();
-                //authorize.requestMatchers("/login/**").permitAll();
-                //authorize.requestMatchers("/auth/**").permitAll();
-                //authorize.requestMatchers("/pedido/pesquisar").hasAuthority("GERENTE");
-                authorize.anyRequest().permitAll();
+                authorize.requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll();
+                authorize.requestMatchers("/api/v1/login/**").permitAll();
+                authorize.requestMatchers("/api/v1/auth/**").permitAll();
+                authorize.requestMatchers("/api/v1/produtos/distintos/produtos").permitAll();
+                authorize.requestMatchers("/api/v1/imagens/imagem/download/**").permitAll();
+                authorize.requestMatchers("/pedido/pesquisar").hasAuthority("GERENTE");
+                authorize.anyRequest().authenticated();
             })
             .formLogin(form -> 
                 form.loginPage("/login")
