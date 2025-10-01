@@ -1,5 +1,6 @@
 package com.dailycodework.agroshop.controller.controllers;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dailycodework.agroshop.controller.dto.cadastro.ProdutoCadastroDTO;
 import com.dailycodework.agroshop.controller.dto.pesquisa.ProdutoPesquisaDTO;
 import com.dailycodework.agroshop.controller.dto.update.ProdutoUpdateDTO;
 import com.dailycodework.agroshop.controller.mapper.ProdutoMapper;
+import com.dailycodework.agroshop.model.Categoria;
 import com.dailycodework.agroshop.response.ApiResponse;
 import com.dailycodework.agroshop.service.Produto.IProdutoService;
 
@@ -32,7 +35,12 @@ public class ProdutoController {
     private final ProdutoMapper mapper;
 
     @GetMapping("/produtos")
-    public ResponseEntity<ApiResponse> getAllProdutos(){
+    public ResponseEntity<ApiResponse> getAllProdutos(
+                                            @RequestParam(value = "nome", required=false) String nome,
+                                            @RequestParam(value = "descricao", required=false) String descricao,
+                                            @RequestParam(value = "categoria", required=false) Categoria categoria,
+                                            @RequestParam(value = "precoMin", required=false) BigDecimal precoMin,
+                                            @RequestParam(value = "precoMax", required=false) BigDecimal precoMax){
         List<ProdutoPesquisaDTO> produtos = service.getAllProdutos().stream()
                     .map(mapper::toDTO)
                     .collect(Collectors.toList()); 
