@@ -25,6 +25,8 @@ import com.dailycodework.agroshop.repository.CategoriaRepository;
 import com.dailycodework.agroshop.repository.ItemCarrinhoRepository;
 import com.dailycodework.agroshop.repository.ItemPedidoRepository;
 import com.dailycodework.agroshop.repository.ProdutoRepository;
+import com.dailycodework.agroshop.service.Categoria.CategoriaService;
+
 import static com.dailycodework.agroshop.repository.ProdutosSpecs.categoriaEqual;
 import static com.dailycodework.agroshop.repository.ProdutosSpecs.precoBetween;
 import static com.dailycodework.agroshop.repository.ProdutosSpecs.searchLike;
@@ -40,6 +42,8 @@ public class ProdutoService implements IProdutoService{
     private final ProdutoRepository repository;
     private final ProdutoValidator validator;
     private final ProdutoMapper mapper;
+
+    private final CategoriaService categoriaService;
     
     private final CategoriaRepository categoriaRepository;
 
@@ -111,10 +115,15 @@ public class ProdutoService implements IProdutoService{
                 });
     }
 
-    public Page<Produto> getProdutos(String search, Categoria categoria, BigDecimal precoMin, 
+    @Override
+    public Page<Produto> getProdutos(String search, String categoria, BigDecimal precoMin, 
                                         BigDecimal precoMax, Integer pagina, Integer tamanhoPagina) {
+
+        System.out.println("ENTROU NO SERVICE");
                                             
         Specification<Produto> specs = null;
+
+        Categoria categoriaSearched = categoriaService.buscaPorNome(categoria);
 
         if(search != null && !search.isEmpty()){
             specs = (specs == null) ? searchLike(search) : specs.and(searchLike(search));
@@ -122,8 +131,8 @@ public class ProdutoService implements IProdutoService{
         if(precoMin != null || precoMax != null){
             specs = (specs == null) ? precoBetween(precoMin, precoMax) : specs.and(precoBetween(precoMin, precoMax));
         }
-        if(categoria != null){
-            specs = (specs == null) ? categoriaEqual(categoria) : specs.and(categoriaEqual(categoria));
+        if(categoriaSearched != null){
+            specs = (specs == null) ? categoriaEqual(categoriaSearched) : specs.and(categoriaEqual(categoriaSearched));
         }
 
         Pageable pageRequest = PageRequest.of(pagina, tamanhoPagina);

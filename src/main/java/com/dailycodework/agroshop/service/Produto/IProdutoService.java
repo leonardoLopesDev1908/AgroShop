@@ -22,7 +22,7 @@ public interface IProdutoService {
 
     List<Produto> getAllProdutos();
 
-    Page<Produto> getProdutos(String search, Categoria categoria, 
+    Page<Produto> getProdutos(String search, String categoria, 
                                          BigDecimal precoMin, BigDecimal precoMax,
                                          Integer pagina, Integer tamanhoPagina); 
 

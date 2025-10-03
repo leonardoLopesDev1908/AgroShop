@@ -20,7 +20,6 @@ import com.dailycodework.agroshop.controller.dto.cadastro.ProdutoCadastroDTO;
 import com.dailycodework.agroshop.controller.dto.pesquisa.ProdutoPesquisaDTO;
 import com.dailycodework.agroshop.controller.dto.update.ProdutoUpdateDTO;
 import com.dailycodework.agroshop.controller.mapper.ProdutoMapper;
-import com.dailycodework.agroshop.model.Categoria;
 import com.dailycodework.agroshop.model.Produto;
 import com.dailycodework.agroshop.response.ApiResponse;
 import com.dailycodework.agroshop.service.Produto.IProdutoService;
@@ -39,19 +38,20 @@ public class ProdutoController {
     @GetMapping("/produtos")
     public ResponseEntity<ApiResponse> getAllProdutos(
                                             @RequestParam(value = "search", required=false) String search,
-                                            @RequestParam(value = "categoria", required=false) Categoria categoria,
+                                            @RequestParam(value = "categoria", required=false) String categoria,
                                             @RequestParam(value = "precoMin", required=false) BigDecimal precoMin,
                                             @RequestParam(value = "precoMax", required=false) BigDecimal precoMax,
-                                            @RequestParam(value = "pagina", defaultValue="1") Integer pagina){
+                                            @RequestParam(value = "pagina", defaultValue="0") Integer pagina,
+                                            @RequestParam(value = "tamanhoPagina", defaultValue="20") Integer tamanhoPagina){
         
-        Integer tamanhoPagina = 20;
-
         Page<Produto> produtos = service.getProdutos(search, categoria, precoMin, precoMax, pagina, tamanhoPagina);                                            
 
         List<ProdutoPesquisaDTO> produtoPesquisaDTOs = produtos.getContent().stream()  
                         .map(mapper::toDTO)
                         .collect(Collectors.toList()); 
-        
+                                            
+        produtoPesquisaDTOs.forEach(System.out::println);
+
         return ResponseEntity.ok(new ApiResponse("Sucesso!", produtoPesquisaDTOs));
     }
 
