@@ -1,9 +1,13 @@
 package com.dailycodework.agroshop.service.Produto;
 
+import java.math.BigDecimal;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
 
 import com.dailycodework.agroshop.controller.dto.cadastro.ProdutoCadastroDTO;
 import com.dailycodework.agroshop.controller.dto.update.ProdutoUpdateDTO;
+import com.dailycodework.agroshop.model.Categoria;
 import com.dailycodework.agroshop.model.Produto;
 
 public interface IProdutoService {
@@ -17,6 +21,10 @@ public interface IProdutoService {
     void deletarProdutoPorId(Long id);
 
     List<Produto> getAllProdutos();
+
+    Page<Produto> getProdutos(String search, Categoria categoria, 
+                                         BigDecimal precoMin, BigDecimal precoMax,
+                                         Integer pagina, Integer tamanhoPagina); 
 
     List<Produto> getProdutoPorMarcaECategoria(String categoria, String marca);
     

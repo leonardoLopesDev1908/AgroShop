@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import com.dailycodework.agroshop.controller.dto.pesquisa.ProdutoPesquisaDTO;
 import com.dailycodework.agroshop.controller.dto.update.ProdutoUpdateDTO;
 import com.dailycodework.agroshop.controller.mapper.ProdutoMapper;
 import com.dailycodework.agroshop.model.Categoria;
+import com.dailycodework.agroshop.model.Produto;
 import com.dailycodework.agroshop.response.ApiResponse;
 import com.dailycodework.agroshop.service.Produto.IProdutoService;
 
@@ -36,15 +38,21 @@ public class ProdutoController {
 
     @GetMapping("/produtos")
     public ResponseEntity<ApiResponse> getAllProdutos(
-                                            @RequestParam(value = "nome", required=false) String nome,
-                                            @RequestParam(value = "descricao", required=false) String descricao,
+                                            @RequestParam(value = "search", required=false) String search,
                                             @RequestParam(value = "categoria", required=false) Categoria categoria,
                                             @RequestParam(value = "precoMin", required=false) BigDecimal precoMin,
-                                            @RequestParam(value = "precoMax", required=false) BigDecimal precoMax){
-        List<ProdutoPesquisaDTO> produtos = service.getAllProdutos().stream()
-                    .map(mapper::toDTO)
-                    .collect(Collectors.toList()); 
-        return ResponseEntity.ok(new ApiResponse("Sucesso!", produtos));
+                                            @RequestParam(value = "precoMax", required=false) BigDecimal precoMax,
+                                            @RequestParam(value = "pagina", defaultValue="1") Integer pagina){
+        
+        Integer tamanhoPagina = 20;
+
+        Page<Produto> produtos = service.getProdutos(search, categoria, precoMin, precoMax, pagina, tamanhoPagina);                                            
+
+        List<ProdutoPesquisaDTO> produtoPesquisaDTOs = produtos.getContent().stream()  
+                        .map(mapper::toDTO)
+                        .collect(Collectors.toList()); 
+        
+        return ResponseEntity.ok(new ApiResponse("Sucesso!", produtoPesquisaDTOs));
     }
 
     @GetMapping("/produto/{id}/produto")

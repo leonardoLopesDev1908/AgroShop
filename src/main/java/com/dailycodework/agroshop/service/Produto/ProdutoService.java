@@ -1,11 +1,16 @@
 package com.dailycodework.agroshop.service.Produto;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.dailycodework.agroshop.controller.dto.cadastro.ProdutoCadastroDTO;
@@ -20,6 +25,9 @@ import com.dailycodework.agroshop.repository.CategoriaRepository;
 import com.dailycodework.agroshop.repository.ItemCarrinhoRepository;
 import com.dailycodework.agroshop.repository.ItemPedidoRepository;
 import com.dailycodework.agroshop.repository.ProdutoRepository;
+import static com.dailycodework.agroshop.repository.ProdutosSpecs.categoriaEqual;
+import static com.dailycodework.agroshop.repository.ProdutosSpecs.precoBetween;
+import static com.dailycodework.agroshop.repository.ProdutosSpecs.searchLike;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -79,7 +87,7 @@ public class ProdutoService implements IProdutoService{
     @Override
     public void deletarProdutoPorId(Long id) {
         repository.findById(id)
-                .ifPresentOrElse(produto -> {
+                .ifPresentOrElse((var produto) -> {
                     List<ItemCarrinho> itens = itemCarrinhoRepository.findByProdutoId(id);
                     itens.forEach(item -> {
                         Carrinho carrinho = item.getCarrinho();
@@ -103,15 +111,33 @@ public class ProdutoService implements IProdutoService{
                 });
     }
 
+    public Page<Produto> getProdutos(String search, Categoria categoria, BigDecimal precoMin, 
+                                        BigDecimal precoMax, Integer pagina, Integer tamanhoPagina) {
+                                            
+        Specification<Produto> specs = null;
+
+        if(search != null && !search.isEmpty()){
+            specs = (specs == null) ? searchLike(search) : specs.and(searchLike(search));
+        }
+        if(precoMin != null || precoMax != null){
+            specs = (specs == null) ? precoBetween(precoMin, precoMax) : specs.and(precoBetween(precoMin, precoMax));
+        }
+        if(categoria != null){
+            specs = (specs == null) ? categoriaEqual(categoria) : specs.and(categoriaEqual(categoria));
+        }
+
+        Pageable pageRequest = PageRequest.of(pagina, tamanhoPagina);
+        return repository.findAll(specs, pageRequest);
+    }
+
     @Override
-    public List<Produto> getAllProdutos() {
+    public List<Produto> getAllProdutos(){
         return repository.findAll();
     }
 
     @Override
     public List<Produto> getProdutoPorMarcaECategoria(String categoria, String marca) {
         throw new RuntimeException("");
-        // return repository.findByCategoriaAndMarca(categoria, marca);
     }
 
     @Override
